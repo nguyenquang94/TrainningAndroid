@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">AppTrainning</string>
+    <string name="edt_username">User name</string>
+    <string name="edt_password">Password</string>
+    <string name="empty_username">Please enter User name</string>
+    <string name="empty_password">Please enter Password</string>
+    <string name="clock_in_out">Clock In And Clock Out</string>
+    <string name="clock_in">CLOCK IN</string>
+    <string name="clock_out">CLOCK OUT</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_item_1">Clock In/Clock Out</string>
+    <string name="nav_item_2">Badge</string>
+    <string name="nav_item_3">Logout</string>
+    <string name="search">search</string>
+
 </resources>

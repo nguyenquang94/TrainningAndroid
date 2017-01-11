@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="150dp"
+    android:background="@color/colorBgLogin"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_marginLeft="@dimen/padding_view_nav_img"
+        android:layout_marginTop="@dimen/padding_view_nav_img"
+        android:layout_width="@dimen/ava_size"
+        android:layout_height="@dimen/ava_size"
+        android:background="@drawable/custom_avatar" />
+
+    <LinearLayout
+        android:layout_marginTop="@dimen/padding_view_nav_img"
+        android:layout_marginLeft="@dimen/stroke_width_press"
+        android:padding="@dimen/padding_view_ac_clock"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:textSize="@dimen/text_size_name_nav"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:textStyle="bold"
+            android:text="Nguyen Van Quang" />
+
+        <TextView
+            android:textSize="@dimen/text_size_name_1_nav"
+            android:layout_width="wrap_content"
+            android:textColor="@color/colorBlackGray"
+            android:layout_height="wrap_content"
+            android:text="quangnvph04210@fpt.edu.vn" />
+    </LinearLayout>
+
+
+</LinearLayout>
