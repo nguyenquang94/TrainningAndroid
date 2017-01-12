@@ -1,10 +1,19 @@
 package com.kai.libre.apptrainning.services;
 
+import com.kai.libre.apptrainning.AppConstants;
+import com.kai.libre.apptrainning.entity.EnAvatar;
+import com.kai.libre.apptrainning.entity.EnBadgeResponse;
 import com.kai.libre.apptrainning.entity.EnLoginResponse;
+import com.kai.libre.apptrainning.entity.EnUserResponse;
 
 import retrofit2.Call;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 /**
  * Created by Kai on 1/11/2017.
@@ -12,27 +21,21 @@ import retrofit2.http.Part;
 
 public interface LibreServices {
 
-    @POST("/service/user/login")
-    public Call<EnLoginResponse> onLogin(@Part("email") String email, @Part("password") String password);
-/*
+    @POST(AppConstants.URL_LOGIN)
+    @FormUrlEncoded
+     Call<EnLoginResponse> onLogin(@Field("email") String email, @Field("password") String password);
 
     @Multipart
-    @POST("/service/shift")
-    public void onShift(@Part("token") String token, @Part("clock_in") int clock_in, Callback<EnCommonResponse> callback);
+    @POST(AppConstants.URL_CHECK_IN_OUT)
+    void onShift(@Part("token") String token, @Part("clock_in") int clock_in);
 
-    @Multipart
-    @POST("/service/user")
-    public void onShift(@Query("charater") String charater , Callback<EnSearchResponse> callback);
+    @GET(AppConstants.URL_USER)
+    Call<EnUserResponse> getListUser();
 
-    @Multipart
-    @POST("/service/badge")
-    public void getListBadge(Callback<EnBadgeResponse> callback);
+    @GET(AppConstants.URL_BADGE)
+    Call<EnBadgeResponse> getListBadge();
 
-    @Multipart
-    @POST("/service/image/{avatarID}")
-    public void getAvatarImage(@Path("avatarId") String avatarId ,Callback<EnCommonResponse> callback);
-*/
-
-
+    @GET(AppConstants.URL_AVATAR_ID)
+    Call<EnAvatar> getAvatarImage(@Path("avatarId") int avatarId);
 
 }

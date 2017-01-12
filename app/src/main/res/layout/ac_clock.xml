@@ -18,15 +18,18 @@
             android:padding="@dimen/padding_view_ac_clock">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/btnCheckIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/selector_btn_app_check_in"
+                android:clickable = "false"
+                android:background="@drawable/selector_btn_app_green"
                 android:text="@string/clock_in"
                 android:textColor="@color/colorWhite" />
 
             <Button
+                android:id="@+id/btnCheckOut"
                 android:layout_width="match_parent"
+                android:clickable = "false"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/padding_view_ac_clock"
                 android:background="@drawable/selector_btn_app_green"

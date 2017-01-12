@@ -13,5 +13,10 @@
     <string name="nav_item_2">Badge</string>
     <string name="nav_item_3">Logout</string>
     <string name="search">search</string>
+    <string name="login">Đang kết nối !</string>
+    <string name="ok">Ok</string>
+    <string name="eror">Đăng nhập thất bại !</string>
+    <string name="str_blank"></string>
+
 
 </resources>

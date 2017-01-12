@@ -1,19 +1,22 @@
 package com.kai.libre.apptrainning.services;
 
+import com.kai.libre.apptrainning.AppConstants;
+
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ApiClient {
-    public static final String BASE_URL = "http://ltm.libre.com.vn/";
     private static Retrofit retrofit = null;
 
-    public static Retrofit getClient() {
+    private static LibreServices libreServices = null;
+    public static LibreServices getClient() {
         if (retrofit==null) {
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
+            Retrofit.Builder builder = new Retrofit.Builder();
+            builder.baseUrl(AppConstants.URL_SERVICES);
+            builder.addConverterFactory(GsonConverterFactory.create());
+            retrofit = builder.build();
+            libreServices = retrofit.create(LibreServices.class);
         }
-        return retrofit;
+        return libreServices;
     }
 }

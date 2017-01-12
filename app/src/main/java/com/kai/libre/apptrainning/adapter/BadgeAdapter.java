@@ -1,18 +1,24 @@
 package com.kai.libre.apptrainning.adapter;
 
 import android.content.Context;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.kai.libre.apptrainning.R;
-import com.kai.libre.apptrainning.entity.EnEmployee;
+import com.kai.libre.apptrainning.entity.EnAvatar;
+import com.kai.libre.apptrainning.entity.EnUserData;
+import com.kai.libre.apptrainning.services.ApiClient;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Kai on 1/11/2017.
@@ -21,17 +27,17 @@ import java.util.List;
 public class BadgeAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<EnEmployee> employeeList;
+    private List<EnUserData> listEnUserDatas;
 
-    public BadgeAdapter(Context mContext, List<EnEmployee> employeeList) {
+    public BadgeAdapter(Context mContext, List<EnUserData> listEnUserDatas) {
         this.mContext = mContext;
-        this.employeeList = employeeList;
+        this.listEnUserDatas = listEnUserDatas;
     }
 
 
     @Override
     public int getCount() {
-        return employeeList.size();
+        return listEnUserDatas.size();
     }
 
     @Override
@@ -45,25 +51,34 @@ public class BadgeAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        TextView noti1 = (TextView) view.findViewById(R.id.noti1);
-        TextView noti2 = (TextView) view.findViewById(R.id.noti2);
-        TextView nameEmployee = (TextView) view.findViewById(R.id.tvEmployeeName);
-        ImageView imageView = (ImageView) view.findViewById(R.id.imgEmployee);
+    public View getView(int position, View convertView, ViewGroup viewGroup) {
+        LayoutInflater inflater = (LayoutInflater) mContext
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        if (view == null) {
-            // if it's not recycled, initialize some attributes
-            imageView = new ImageView(mContext);
-            imageView.setLayoutParams(new GridView.LayoutParams(85, 85));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imageView.setPadding(8, 8, 8, 8);
-        } else {
-            imageView = (ImageView) view;
-        }
-       noti1.setText(employeeList.get(i).getNoti1());
-        noti2.setText(employeeList.get(i).getNoti2());
-        nameEmployee.setText(employeeList.get(i).getNameEmployee());
-        Glide.with(mContext).load(employeeList.get(i).getImageAva()).into(imageView);
-        return null;
+        View gridView = inflater.inflate(R.layout.custom_ac_badge, null);
+
+        TextView noti1 = (TextView) gridView.findViewById(R.id.noti1);
+        TextView noti2 = (TextView) gridView.findViewById(R.id.noti2);
+        TextView nameEmployee = (TextView) gridView.findViewById(R.id.tvEmployeeName);
+        final ImageView imageView = (ImageView) gridView.findViewById(R.id.imgEmployee);
+        String countDanger = listEnUserDatas.get(position).getCountDanger()+"";
+        noti1.setText(listEnUserDatas.get(position).getCountDanger() +"");
+        noti2.setText(listEnUserDatas.get(position).getOcuntSuccess() +"");
+        nameEmployee.setText(listEnUserDatas.get(position).getName());
+        int avatarId = listEnUserDatas.get(position).getAvatarId();
+
+        ApiClient.getClient().getAvatarImage(avatarId).enqueue(new Callback<EnAvatar>() {
+            @Override
+            public void onResponse(Call<EnAvatar> call, Response<EnAvatar> response) {
+                EnAvatar enAvatar = response.body();
+                Glide.with(mContext).load(enAvatar.getDescription()).into(imageView);
+            }
+
+            @Override
+            public void onFailure(Call<EnAvatar> call, Throwable t) {
+
+            }
+        });
+        return gridView;
     }
 }

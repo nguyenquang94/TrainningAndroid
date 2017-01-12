@@ -28,11 +28,14 @@
                 android:layout_weight="1"
                 android:background="@drawable/ic_search" />
 
-            <EditText
+            <AutoCompleteTextView
+                android:id="@+id/edtSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="20"
                 android:hint="@string/search" />
+
+
         </LinearLayout>
 
 
@@ -40,11 +43,13 @@
 
     <GridView xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/gridview"
+        android:layout_marginTop="10dp"
+        android:background="#f1f1f1"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:columnWidth="90dp"
-        android:numColumns="auto_fit"
         android:verticalSpacing="10dp"
+        android:numColumns="auto_fit"
         android:horizontalSpacing="10dp"
         android:stretchMode="columnWidth"
         android:gravity="center"
