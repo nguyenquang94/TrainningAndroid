@@ -2,13 +2,14 @@ package com.kai.libre.apptrainning.entity;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Kai on 1/11/2017.
  */
 
-public class EnBadgeResponse {
+public class EnBadgeResponse implements Serializable {
     @SerializedName("data")
     private List<EnBadgeResponse> data;
     @SerializedName("id")
@@ -21,6 +22,11 @@ public class EnBadgeResponse {
     private String colorClass;
     @SerializedName("point")
     private String point;
+
+    public EnBadgeResponse(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public EnBadgeResponse(int id, String name, String icon, String colorClass, String point) {
         this.id = id;

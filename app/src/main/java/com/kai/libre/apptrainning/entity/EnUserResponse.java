@@ -120,7 +120,7 @@ public class EnUserResponse {
         @SerializedName("id")
         private int id;
         @SerializedName("user_id")
-        private String user_id;
+        private int user_id;
         @SerializedName("badge_id")
         private String badge_id;
         @SerializedName("creator_id")
@@ -140,7 +140,7 @@ public class EnUserResponse {
             return id;
         }
 
-        public String getUser_id() {
+        public int getUser_id() {
             return user_id;
         }
 

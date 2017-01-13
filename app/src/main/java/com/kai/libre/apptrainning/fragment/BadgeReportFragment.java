@@ -1,77 +1,106 @@
 package com.kai.libre.apptrainning.fragment;
 
 
+import android.app.AlertDialog;
+import android.content.Context;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v4.view.ViewPager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridView;
+import android.widget.TabHost;
+import android.widget.TextView;
 
+import com.kai.libre.apptrainning.AppConstants;
 import com.kai.libre.apptrainning.R;
-import com.kai.libre.apptrainning.entity.EnBadgeResponse;
-import com.kai.libre.apptrainning.services.ApiClient;
+import com.kai.libre.apptrainning.entity.EnReportBadge;
 
-import java.util.List;
+import static com.kai.libre.apptrainning.R.id.nameEmployeeTab;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * Created by Kai on 1/12/2017.
  */
 
-public class BadgeReportFragment extends FragmentActivity {
-    private List<EnBadgeResponse> listBadge;
-    private List<String> listNameBadge;
+public class BadgeReportFragment extends DialogFragment {
+
+
+
+    private AlertDialog dialog;
+
     private FragmentTabHost mTabHost;
 
+    private ViewPager viewPager;
+
+    private String token;
+
+    private int userId;
+
+    private int creatorId;
+
+    private TextView tvName;
+
+    private EnReportBadge enReportBadge;
+
+    private Context mContext;
+
+    private GridView gridView;
+
+    private Bundle bundle;
+
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState, PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
-        setContentView(R.layout.dialog_bagde);
-        mTabHost = (FragmentTabHost)findViewById(android.R.id.tabhost);
-       /* mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.dialog_bagde, container);
+        mContext = getActivity();
+        bundle = getArguments();
+        mTabHost = (FragmentTabHost) view.findViewById(R.id.tabs);
+        viewPager = (ViewPager) view.findViewById(R.id.pager);
+        tvName = (TextView) view.findViewById(nameEmployeeTab);
+        gridView = (GridView) view.findViewById(R.id.gridviewDanger);
+        getValuesFromBundle();
 
-        mTabHost.addTab(mTabHost.newTabSpec("simple").setIndicator("Simple"),
-                FragmentStackSupport.CountingFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("contacts").setIndicator("Contacts"),
-                LoaderCursorSupport.CursorLoaderListFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("custom").setIndicator("Custom"),
-                LoaderCustomSupport.AppListFragment.class, null);
-        mTabHost.addTab(mTabHost.newTabSpec("throttle").setIndicator("Throttle"),
-                LoaderThrottleSupport.ThrottledLoaderListFragment.class, null);*/
-    }
-
-   /* @NonNull
-    @Override
-    public Dialog onCreateDialog(Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_bagde, null);
-        Bundle bundle = getArguments();
-        getBadge();
-        listBadge = new ArrayList<EnBadgeResponse>();
-        listNameBadge = new ArrayList<String>();
-        mTabHost = new FragmentTabHost(getActivity());
-        mTabHost.addTab(mTabHost.newTabSpec("Tab1").setIndicator("Frag Tab1"),
-                MyNestedFragment1.class, arg1)
-        return new AlertDialog.Builder(getActivity()).setView(view).create();
-    }*/
-
-    public void getBadge()
-    {
-        ApiClient.getClient().getListBadge().enqueue(new Callback<EnBadgeResponse>() {
+        mTabHost.setup(getActivity(), getChildFragmentManager());
+        mTabHost.addTab(mTabHost.newTabSpec("tab1").setIndicator(AppConstants.BADGE_DANGER), DangerFragment.class, bundle);
+        mTabHost.addTab(mTabHost.newTabSpec("tab2").setIndicator(AppConstants.BADGE_SUCCESS), SuccessFragment.class, bundle);
+        mTabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
             @Override
-            public void onResponse(Call<EnBadgeResponse> call, Response<EnBadgeResponse> response) {
-                listBadge = response.body().getData();
-                for(int i = 0; i < listBadge.size(); i ++) {
-                    listNameBadge.add(listBadge.get(i).getName());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<EnBadgeResponse> call, Throwable t) {
-
+            public void onTabChanged(String s) {
+                int i = mTabHost.getCurrentTab();
+                viewPager.setCurrentItem(i);
             }
         });
+
+        return view;
+    }
+
+
+
+    public void getValuesFromBundle() {
+        bundle = getArguments();
+        getDialog().setTitle(bundle.getString(AppConstants.NAME_EMPLOYEE));
+        token = bundle.getString(AppConstants.TOKEN);
+        userId = bundle.getInt(AppConstants.USER_ID);
+        creatorId = bundle.getInt(AppConstants.CREATOR_ID);
+        enReportBadge = new EnReportBadge(token, userId, creatorId);
+    }
+
+    public void getBadge() {
+
+
+    }
+
+    @Override
+    public void onResume() {
+        ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();
+        params.width = 800;
+        params.height = 1000;
+        getDialog().getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+        super.onResume();
     }
 
 }

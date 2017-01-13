@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imgMenuNav"
+            android:id="@+id/imgMenuNavBadge"
             android:layout_width="@dimen/size_menu"
             android:layout_height="@dimen/size_menu"
             android:layout_gravity="center"

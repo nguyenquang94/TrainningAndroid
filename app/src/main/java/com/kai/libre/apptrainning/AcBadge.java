@@ -1,13 +1,22 @@
 package com.kai.libre.apptrainning;
 
 import android.os.Bundle;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.kai.libre.apptrainning.adapter.BadgeAdapter;
+import com.kai.libre.apptrainning.entity.EnAvatar;
 import com.kai.libre.apptrainning.entity.EnUserData;
 import com.kai.libre.apptrainning.entity.EnUserResponse;
 import com.kai.libre.apptrainning.services.ApiClient;
@@ -19,7 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AcBadge extends AppCompatActivity {
+public class AcBadge extends AppCompatActivity implements View.OnClickListener {
 
     private BadgeAdapter badgeAdapter;
 
@@ -38,6 +47,28 @@ public class AcBadge extends AppCompatActivity {
     private List<String> listNameEmployee;
 
     private AutoCompleteTextView autoCompleteTextView;
+
+    private TextView tvBadge;
+
+    private TextView tvCheck;
+
+    private TextView tvLogut;
+
+    private TextView tvNameEmployee;
+
+    private TextView tvEmail;
+
+    private Button btnCheckIn;
+
+    private Button btnCheckOut;
+
+    private ImageView imgAvatar;
+
+    private DrawerLayout drawer;
+
+    private ImageView imgMenuNavBadge;
+
+    private int avatarId;
 
 
     @Override
@@ -58,12 +89,38 @@ public class AcBadge extends AppCompatActivity {
 
         badgeAdapter = new BadgeAdapter(this, listEnUserDatas);
         gridview.setAdapter(badgeAdapter);
+
+        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.setDrawerListener(toggle);
+        toggle.syncState();
     }
 
     public void getValuesFromBunlde() {
         Bundle bundle = getBundle();
         tokenEmployee = bundle.getString(AppConstants.TOKEN);
+        tvNameEmployee.setText(bundle.getString(AppConstants.NAME_EMPLOYEE));
+        tvEmail.setText(bundle.getString(AppConstants.EMAIL_EMPLOYEE));
+        avatarId = bundle.getInt(AppConstants.AVATAR_ID);
+        getAvatarId(avatarId);
     }
+
+    public void getAvatarId(final int avatarId) {
+        ApiClient.getClient().getAvatarImage(avatarId).enqueue(new Callback<EnAvatar>() {
+            @Override
+            public void onResponse(Call<EnAvatar> call, Response<EnAvatar> response) {
+                EnAvatar enAvatar = response.body();
+                Glide.with(AcBadge.this).load(enAvatar.getDescription()).into(imgAvatar);
+            }
+
+            @Override
+            public void onFailure(Call<EnAvatar> call, Throwable t) {
+
+            }
+        });
+    }
+
 
     public void getUser() {
         ApiClient.getClient().getListUser().enqueue(new Callback<EnUserResponse>() {
@@ -79,10 +136,14 @@ public class AcBadge extends AppCompatActivity {
                     int creatorId = 0;
                     int countDanger = 0;
                     int countSuccess = 0;
+                    int userId = 0;
+                    String token = listUser.get(i).getToken();
                     if (listUserBadge.size() > 0) {
                         for (int l = 0; l < listUserBadge.size(); l++) {
-                            creatorId = listUserBadge.get(i).getCreator_id();
-                            String colorClass = listUserBadge.get(i).getBadge().getColor_class();
+                            creatorId = listUserBadge.get(l).getCreator_id();
+                            String colorClass = listUserBadge.get(l).getBadge().getColor_class();
+                            userId = listUserBadge.get(l).getUser_id();
+
                             switch (colorClass) {
                                 case AppConstants.BADGE_DANGER:
                                     countDanger += 1;
@@ -93,9 +154,7 @@ public class AcBadge extends AppCompatActivity {
                             }
                         }
                     }
-                    Log.d("nguyenquang",countDanger +"");
-                    Log.d("nguyenquang1",countSuccess +"");
-                    EnUserData enUserData = new EnUserData(id, name, countDanger, countSuccess, creatorId, avatarId);
+                    EnUserData enUserData = new EnUserData(id, token, name, countDanger, countSuccess, creatorId, avatarId , userId);
                     listEnUserDatas.add(enUserData);
                 }
 
@@ -108,13 +167,22 @@ public class AcBadge extends AppCompatActivity {
         });
     }
 
-    public void countBadge() {
-
-    }
-
     public void init() {
         gridview = (GridView) findViewById(R.id.gridview);
         autoCompleteTextView = (AutoCompleteTextView) findViewById(R.id.edtSearch);
+        imgMenuNavBadge = (ImageView) findViewById(R.id.imgMenuNavBadge);
+        imgMenuNavBadge.setOnClickListener(this);
+        tvBadge = (TextView) findViewById(R.id.tvBadge);
+        tvBadge.setOnClickListener(this);
+        tvCheck = (TextView) findViewById(R.id.tvCheck);
+        tvLogut = (TextView) findViewById(R.id.tvLogout);
+        tvCheck.setOnClickListener(this);
+        tvLogut.setOnClickListener(this);
+        tvNameEmployee = (TextView) findViewById(R.id.tvNameEmployeeClock);
+        tvEmail = (TextView) findViewById(R.id.tvEmailEmployeeClock);
+        imgAvatar = (ImageView) findViewById(R.id.imgAvatarEmployee);
+        getValuesFromBunlde();
+
     }
 
     public Bundle getBundle() {
@@ -122,5 +190,26 @@ public class AcBadge extends AppCompatActivity {
         if (bundle == null)
             bundle = new Bundle();
         return bundle;
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.imgMenuNavBadge:
+                if (drawer.isDrawerOpen(GravityCompat.START)) {
+                    drawer.closeDrawer(GravityCompat.START);
+                } else {
+                    drawer.openDrawer(Gravity.LEFT);
+                }
+                break;
+            case R.id.tvBadge:
+                drawer.closeDrawer(GravityCompat.START);
+                break;
+            case R.id.tvCheck:
+                finish();
+                break;
+            case R.id.tvLogout:
+                break;
+        }
     }
 }

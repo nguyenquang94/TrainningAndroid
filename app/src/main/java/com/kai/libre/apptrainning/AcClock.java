@@ -1,6 +1,5 @@
 package com.kai.libre.apptrainning;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.kai.libre.apptrainning.entity.EnAvatar;
+import com.kai.libre.apptrainning.intents.IntentManager;
 import com.kai.libre.apptrainning.services.ApiClient;
 
 import retrofit2.Call;
@@ -42,6 +42,8 @@ public class AcClock extends AppCompatActivity implements View.OnClickListener {
     private DrawerLayout drawer;
 
     private String tokenEmployee;
+
+    private  Bundle bundle;
 
     private int avatarId;
 
@@ -78,7 +80,7 @@ public class AcClock extends AppCompatActivity implements View.OnClickListener {
     }
 
     public void getValuesFromBunlde() {
-        Bundle bundle = getBundle();
+        bundle = getBundle();
         tokenEmployee = bundle.getString(AppConstants.TOKEN);
         tvNameEmployee.setText(bundle.getString(AppConstants.NAME_EMPLOYEE));
         tvEmail.setText(bundle.getString(AppConstants.EMAIL_EMPLOYEE));
@@ -97,12 +99,15 @@ public class AcClock extends AppCompatActivity implements View.OnClickListener {
                 }
                 break;
             case R.id.tvBadge:
-                startActivity(new Intent(AcClock.this, AcBadge.class));
+                IntentManager.startActivity(AcClock.this, AcBadge.class, bundle, null);
                 break;
             case R.id.tvCheck:
                 drawer.closeDrawer(GravityCompat.START);
                 break;
             case R.id.tvLogout:
+
+
+
                 break;
             case R.id.btnCheckIn:
                 checkIn();

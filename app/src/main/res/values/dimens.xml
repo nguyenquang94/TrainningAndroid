@@ -8,7 +8,6 @@
     <dimen name="margin_top_login">100dp</dimen>
     <dimen name="size_ic_login">30dp</dimen>
 
-
     <dimen name="corners_radius">5dp</dimen>
     <dimen name="stroke_width_press">6dp</dimen>
     <dimen name="padding_press">8dp</dimen>
@@ -27,5 +26,6 @@
     <dimen name="size_ic_search_w">40dp</dimen>
     <dimen name="size_ic_search_h">45dp</dimen>
 
+    <dimen name="ic_nav">16dp</dimen>
 
 </resources>
