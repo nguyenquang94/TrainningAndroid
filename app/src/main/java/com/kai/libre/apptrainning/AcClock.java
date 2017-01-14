@@ -10,9 +10,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.kai.libre.apptrainning.entity.EnAvatar;
+import com.kai.libre.apptrainning.entity.EnClockInStatus;
 import com.kai.libre.apptrainning.intents.IntentManager;
 import com.kai.libre.apptrainning.services.ApiClient;
 
@@ -43,15 +45,26 @@ public class AcClock extends AppCompatActivity implements View.OnClickListener {
 
     private String tokenEmployee;
 
-    private  Bundle bundle;
+    private Bundle bundle;
 
     private int avatarId;
+
+    private boolean isCheckId;
+
+    private int statusCheckIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_clock);
+        bundle = getBundle();
         init();
+        tokenEmployee = bundle.getString(AppConstants.TOKEN);
+        tvNameEmployee.setText(bundle.getString(AppConstants.NAME_EMPLOYEE));
+        tvEmail.setText(bundle.getString(AppConstants.EMAIL_EMPLOYEE));
+        avatarId = bundle.getInt(AppConstants.AVATAR_ID);
+        statusCheckIn = bundle.getInt(AppConstants.STATUS_CHECKIN);
+        getAvatarId(avatarId);
 
         drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -64,6 +77,10 @@ public class AcClock extends AppCompatActivity implements View.OnClickListener {
         btnCheckIn = (Button) findViewById(R.id.btnCheckIn);
         btnCheckOut = (Button) findViewById(R.id.btnCheckOut);
         btnCheckOut.setOnClickListener(this);
+        if(statusCheckIn != AppConstants.CHECKIN){
+            btnCheckIn.setEnabled(false);
+            btnCheckIn.setBackgroundResource(R.drawable.btn_app_gray_selected);
+        }
         btnCheckIn.setOnClickListener(this);
         imgMenuNav = (ImageView) findViewById(R.id.imgMenuNav);
         imgMenuNav.setOnClickListener(this);
@@ -76,16 +93,7 @@ public class AcClock extends AppCompatActivity implements View.OnClickListener {
         tvNameEmployee = (TextView) findViewById(R.id.tvNameEmployeeClock);
         tvEmail = (TextView) findViewById(R.id.tvEmailEmployeeClock);
         imgAvatar = (ImageView) findViewById(R.id.imgAvatarEmployee);
-        getValuesFromBunlde();
-    }
 
-    public void getValuesFromBunlde() {
-        bundle = getBundle();
-        tokenEmployee = bundle.getString(AppConstants.TOKEN);
-        tvNameEmployee.setText(bundle.getString(AppConstants.NAME_EMPLOYEE));
-        tvEmail.setText(bundle.getString(AppConstants.EMAIL_EMPLOYEE));
-        avatarId = bundle.getInt(AppConstants.AVATAR_ID);
-        getAvatarId(avatarId);
     }
 
     @Override
@@ -107,7 +115,6 @@ public class AcClock extends AppCompatActivity implements View.OnClickListener {
             case R.id.tvLogout:
 
 
-
                 break;
             case R.id.btnCheckIn:
                 checkIn();
@@ -124,7 +131,17 @@ public class AcClock extends AppCompatActivity implements View.OnClickListener {
 
     public void checkIn() {
         try {
-            ApiClient.getClient().onShift(tokenEmployee, AppConstants.CLOCK_IN);
+            ApiClient.getClient().onShift(tokenEmployee, AppConstants.CLOCK_IN).enqueue(new Callback<EnClockInStatus>() {
+                @Override
+                public void onResponse(Call<EnClockInStatus> call, Response<EnClockInStatus> response) {
+                    EnClockInStatus enClockInStatus = response.body();
+                    Toast.makeText(AcClock.this, enClockInStatus.getDescription() + " !", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<EnClockInStatus> call, Throwable t) {
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -133,13 +150,22 @@ public class AcClock extends AppCompatActivity implements View.OnClickListener {
 
     public void checkOut() {
         try {
-            ApiClient.getClient().onShift(tokenEmployee, AppConstants.CLOCK_OUT);
+            ApiClient.getClient().onShift(tokenEmployee, AppConstants.CLOCK_OUT).enqueue(new Callback<EnClockInStatus>() {
+                @Override
+                public void onResponse(Call<EnClockInStatus> call, Response<EnClockInStatus> response) {
+                    EnClockInStatus enClockInStatus = response.body();
+                    Toast.makeText(AcClock.this, enClockInStatus.getDescription() + " !", Toast.LENGTH_SHORT).show();
+                }
+
+                @Override
+                public void onFailure(Call<EnClockInStatus> call, Throwable t) {
+                }
+            });
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-
     public void getAvatarId(final int avatarId) {
         ApiClient.getClient().getAvatarImage(avatarId).enqueue(new Callback<EnAvatar>() {
             @Override
@@ -162,4 +188,15 @@ public class AcClock extends AppCompatActivity implements View.OnClickListener {
         return bundle;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        drawer.closeDrawer(GravityCompat.START);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        drawer.closeDrawer(GravityCompat.START);
+    }
 }

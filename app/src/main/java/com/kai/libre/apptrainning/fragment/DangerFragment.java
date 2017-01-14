@@ -36,7 +36,7 @@ public class DangerFragment extends android.support.v4.app.Fragment {
 
     private int creatorId;
 
-    private ArrayList<EnBadgeResponse> listEnBadgeResponses;
+    private ArrayList<EnBadgeResponse> listEnBadgeResponses = new ArrayList<>();
 
     private EnReportBadge enReportBadge;
 
@@ -46,7 +46,6 @@ public class DangerFragment extends android.support.v4.app.Fragment {
         View v = inflater.inflate(R.layout.tab_danger, container, false);
         gridView = (GridView) v.findViewById(R.id.gridviewDanger);
         listBadge = new ArrayList<EnBadgeResponse>();
-        listEnBadgeResponses = new ArrayList<EnBadgeResponse>();
         getValuesFromBundle();
         getBadge();
 
@@ -66,22 +65,28 @@ public class DangerFragment extends android.support.v4.app.Fragment {
             @Override
             public void onResponse(Call<EnBadgeResponse> call, Response<EnBadgeResponse> response) {
                 listBadge = response.body().getData();
-                for (int i = 0 ;i < listBadge.size(); i++)
-                {
+                for (int i = 0; i < listBadge.size(); i++) {
                     String colorClass = listBadge.get(i).getColorClass();
-                    switch (colorClass)
-                    {
+                    switch (colorClass) {
                         case AppConstants.BADGE_DANGER:
-                           EnBadgeResponse enBadgeResponse = new EnBadgeResponse(listBadge.get(i).getId(), listBadge.get(i).getName());
+                            EnBadgeResponse enBadgeResponse = new EnBadgeResponse(listBadge.get(i).getId(), listBadge.get(i).getName());
                             listEnBadgeResponses.add(enBadgeResponse);
+
+
                             break;
 
                         case AppConstants.BADGE_SUCCESS:
                             break;
                     }
                 }
-                 DangerAdapter dangerAdapter = new DangerAdapter(getActivity(), enReportBadge, listEnBadgeResponses);
-                 gridView.setAdapter(dangerAdapter);
+                final DangerAdapter dangerAdapter = new DangerAdapter(getActivity(), listEnBadgeResponses);
+                gridView.post(new Runnable() {
+                    public void run() {
+                        gridView.setAdapter(dangerAdapter);
+                        dangerAdapter.notifyDataSetChanged();
+                    }
+                });
+
             }
 
             @Override

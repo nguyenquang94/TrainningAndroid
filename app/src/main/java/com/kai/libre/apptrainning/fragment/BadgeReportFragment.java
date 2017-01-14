@@ -89,11 +89,6 @@ public class BadgeReportFragment extends DialogFragment {
         enReportBadge = new EnReportBadge(token, userId, creatorId);
     }
 
-    public void getBadge() {
-
-
-    }
-
     @Override
     public void onResume() {
         ViewGroup.LayoutParams params = getDialog().getWindow().getAttributes();

@@ -13,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.kai.libre.apptrainning.entity.EnClockInStatus;
 import com.kai.libre.apptrainning.entity.EnLoginResponse;
 import com.kai.libre.apptrainning.intents.IntentManager;
 import com.kai.libre.apptrainning.services.ApiClient;
@@ -38,6 +39,8 @@ public class AcLogin extends AppCompatActivity {
     private Button btnLogin;
 
     protected ProgressDialog prgDialog;
+
+    private int statusCheckIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +102,8 @@ public class AcLogin extends AppCompatActivity {
                 if (enLoginResponse.getToken() != null) {
                     Bundle bundle = new Bundle();
                     bundle.putString(AppConstants.TOKEN, enLoginResponse.getToken());
+                    checkInStatus(enLoginResponse.getToken());
+                    bundle.putInt(AppConstants.STATUS_CHECKIN, statusCheckIn);
                     bundle.putString(AppConstants.EMAIL_EMPLOYEE, enLoginResponse.getEmail());
                     bundle.putString(AppConstants.NAME_EMPLOYEE, enLoginResponse.getName());
                     bundle.putInt(AppConstants.AVATAR_ID, enLoginResponse.getAvatarId());
@@ -111,6 +116,20 @@ public class AcLogin extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<EnLoginResponse> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void checkInStatus(String tokenEmployee) {
+        ApiClient.getClient().checkInStatus(tokenEmployee).enqueue(new Callback<EnClockInStatus>() {
+            @Override
+            public void onResponse(Call<EnClockInStatus> call, Response<EnClockInStatus> response) {
+                statusCheckIn = response.body().getCode();
+            }
+
+            @Override
+            public void onFailure(Call<EnClockInStatus> call, Throwable t) {
 
             }
         });

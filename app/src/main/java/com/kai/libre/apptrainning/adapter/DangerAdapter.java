@@ -5,38 +5,41 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.ArrayAdapter;
 
 import com.kai.libre.apptrainning.AcBadge;
 import com.kai.libre.apptrainning.R;
 import com.kai.libre.apptrainning.entity.EnBadgeResponse;
 import com.kai.libre.apptrainning.entity.EnReportBadge;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Created by Kai on 1/13/2017.
+ * Created by Kai on 1/11/2017.
  */
 
-public class DangerAdapter extends BaseAdapter {
+public class DangerAdapter extends ArrayAdapter<EnBadgeResponse> {
 
     private AcBadge mContext;
-
     private EnReportBadge enReportBadge;
+    private List<EnBadgeResponse> listEnBadgeResponses;
 
-    private ArrayList<EnBadgeResponse> listEnBadgeResponses;
-
-    public DangerAdapter(Context context, EnReportBadge enReportBadge, ArrayList<EnBadgeResponse> listEnBadgeResponses) {
-        this.mContext =(AcBadge) context;
-        this.enReportBadge = enReportBadge;
+    public DangerAdapter(Context context, List<EnBadgeResponse> listEnBadgeResponses) {
+        super(context, 0, listEnBadgeResponses);
         this.listEnBadgeResponses = listEnBadgeResponses;
+        this.mContext = (AcBadge) context;
     }
 
-    @Override
+    /* public DangerAdapter(Context mContext, EnReportBadge enReportBadge, List<EnBadgeResponse> listEnBadgeResponses) {
+         this.mContext = (AcBadge) mContext;
+         this.enReportBadge = enReportBadge;
+         this.listEnBadgeResponses = listEnBadgeResponses;
+     }
+ */
     public int getCount() {
-        return listEnBadgeResponses.size();
+        Log.d("ngngngngn", listEnBadgeResponses.size() + "");
+        return this.listEnBadgeResponses == null ? 0 : listEnBadgeResponses.size();
+
     }
 
     @Override
@@ -50,14 +53,12 @@ public class DangerAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup viewGroup) {
-        Log.d("nguyennguyenquang","davaoday");
-        view = LayoutInflater.from(mContext).inflate(R.layout.custom_danger, viewGroup, false);
-        TextView tvDanger = (TextView) view.findViewById(R.id.tvDanger);
-        ImageView imgDanger = (ImageView) view.findViewById(R.id.imageView);
-        imgDanger.setImageResource(R.drawable.ic_danger);
-        tvDanger.setText(listEnBadgeResponses.get(position).getName());
-        Log.d("nguyenquang", listEnBadgeResponses.get(position).getName());
-        return view;
+    public View getView(final int position, View convertView, ViewGroup viewGroup) {
+        Log.d("nguyenquang","davaoday");
+        EnBadgeResponse  enBadgeResponse = getItem(position);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.custom_danger, viewGroup, false);
+        }
+        return convertView;
     }
 }

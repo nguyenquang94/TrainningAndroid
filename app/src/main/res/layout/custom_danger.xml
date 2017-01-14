@@ -5,11 +5,13 @@
     android:orientation="vertical">
 
     <ImageView
+        android:src="@drawable/ic_user"
         android:id="@+id/imageDanger"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="483dp" />
 
     <TextView
+        android:text="nguyenquang"
         android:id="@+id/tvDanger"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />

@@ -17,6 +17,9 @@
     <string name="ok">Ok</string>
     <string name="eror">Đăng nhập thất bại !</string>
     <string name="str_blank"></string>
+    <string name="message_clock_in">Message Clock In</string>
+    <string name="message_clock_out">Message Clock Out</string>
+    <string name="btn_ok">Ok</string>
 
 
 </resources>
