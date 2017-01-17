@@ -40,4 +40,7 @@ public interface LibreServices {
     @GET(AppConstants.URL_AVATAR_ID)
     Call<EnAvatar> getAvatarImage(@Path("avatarId") int avatarId);
 
+    @GET(AppConstants.URL_BADGE)
+    Call<EnBadgeResponse> addBadge(@Query("token") String token, @Query("user_id") int userid , @Query("badge_id") int badgeId, @Query("creator_id") int creator_id);
+
 }

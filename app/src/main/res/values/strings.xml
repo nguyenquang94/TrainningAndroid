@@ -20,6 +20,9 @@
     <string name="message_clock_in">Message Clock In</string>
     <string name="message_clock_out">Message Clock Out</string>
     <string name="btn_ok">Ok</string>
+    <string name="btn_cancel">Hủy</string>
+    <string name="dialog_confirm">Confirm to add Badge </string>
+    <string name="tittle_dialog_confirm">Do you want to add this Badge to %1$d </string>
 
 
 </resources>

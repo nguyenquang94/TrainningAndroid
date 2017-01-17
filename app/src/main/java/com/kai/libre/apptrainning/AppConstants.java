@@ -19,6 +19,7 @@ public class AppConstants {
     public static final String  AVATAR_ID = "avatar_id";
     public static final String DIALOG_TAG = "dialog";
     public static final String BADGE_DANGER = "danger";
+    public static final String BADGE_ID = "badge_id";
     public static final String BADGE_SUCCESS= "success";
     public static final String USER_ID= "user_id";
     public static final String CREATOR_ID = "creator_id";

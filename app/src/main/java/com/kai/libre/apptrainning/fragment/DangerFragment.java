@@ -1,16 +1,21 @@
 package com.kai.libre.apptrainning.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.kai.libre.apptrainning.AcBadge;
 import com.kai.libre.apptrainning.AppConstants;
 import com.kai.libre.apptrainning.R;
-import com.kai.libre.apptrainning.adapter.DangerAdapter;
 import com.kai.libre.apptrainning.entity.EnBadgeResponse;
-import com.kai.libre.apptrainning.entity.EnReportBadge;
 import com.kai.libre.apptrainning.services.ApiClient;
 
 import java.util.ArrayList;
@@ -21,46 +26,37 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
- * Created by Kai on 1/13/2017.
+ * Created by Kai on 1/17/2017.
  */
 
-public class DangerFragment extends android.support.v4.app.Fragment {
+public class DangerFragment extends DialogFragment {
 
     private GridView gridView;
 
     private List<EnBadgeResponse> listBadge;
 
-    private String token;
+    private ArrayList<EnBadgeResponse> listDanger;
 
-    private int userId;
+    private DangerAdapter dangerAdapter;
 
-    private int creatorId;
+    private Bundle bundle;
 
-    private ArrayList<EnBadgeResponse> listEnBadgeResponses = new ArrayList<>();
-
-    private EnReportBadge enReportBadge;
-
+    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.tab_danger, container, false);
-        gridView = (GridView) v.findViewById(R.id.gridviewDanger);
+    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.tab_danger, container);
+        bundle = getArguments();
         listBadge = new ArrayList<EnBadgeResponse>();
-        getValuesFromBundle();
-        getBadge();
+        listDanger = new ArrayList<EnBadgeResponse>();
+        createListBadge();
+        gridView = (GridView) view.findViewById(R.id.gridviewDanger);
 
-        return v;
+        dangerAdapter = new DangerAdapter(getContext(), bundle, listDanger);
+        gridView.setAdapter(dangerAdapter);
+        return view;
     }
 
-    public void getValuesFromBundle() {
-        Bundle bundle = getArguments();
-        token = bundle.getString(AppConstants.TOKEN);
-        userId = bundle.getInt(AppConstants.USER_ID);
-        creatorId = bundle.getInt(AppConstants.CREATOR_ID);
-        enReportBadge = new EnReportBadge(token, userId, creatorId);
-    }
-
-    public void getBadge() {
+    public void createListBadge() {
         ApiClient.getClient().getListBadge().enqueue(new Callback<EnBadgeResponse>() {
             @Override
             public void onResponse(Call<EnBadgeResponse> call, Response<EnBadgeResponse> response) {
@@ -70,8 +66,7 @@ public class DangerFragment extends android.support.v4.app.Fragment {
                     switch (colorClass) {
                         case AppConstants.BADGE_DANGER:
                             EnBadgeResponse enBadgeResponse = new EnBadgeResponse(listBadge.get(i).getId(), listBadge.get(i).getName());
-                            listEnBadgeResponses.add(enBadgeResponse);
-
+                            listDanger.add(enBadgeResponse);
 
                             break;
 
@@ -79,13 +74,6 @@ public class DangerFragment extends android.support.v4.app.Fragment {
                             break;
                     }
                 }
-                final DangerAdapter dangerAdapter = new DangerAdapter(getActivity(), listEnBadgeResponses);
-                gridView.post(new Runnable() {
-                    public void run() {
-                        gridView.setAdapter(dangerAdapter);
-                        dangerAdapter.notifyDataSetChanged();
-                    }
-                });
 
             }
 
@@ -94,5 +82,76 @@ public class DangerFragment extends android.support.v4.app.Fragment {
 
             }
         });
+    }
+
+    public class DangerAdapter extends BaseAdapter {
+
+        private AcBadge mContext;
+
+        private List<EnBadgeResponse> list;
+
+        private Bundle bundle;
+
+        public DangerAdapter(Context context, Bundle bundle, ArrayList<EnBadgeResponse> listDanger) {
+            this.mContext =(AcBadge) context;
+            this.bundle = bundle;
+            this.list = listDanger;
+        }
+
+        @Override
+        public int getCount() {
+            return list.size();
+        }
+
+        @Override
+        public Object getItem(int i) {
+            return null;
+        }
+
+        @Override
+        public long getItemId(int i) {
+            return 0;
+        }
+
+        @Override
+        public View getView(int i, View view, ViewGroup viewGroup) {
+
+            EnBadgeResponse enBadgeResponse = list.get(i);
+            String token = bundle.getString(AppConstants.TOKEN);
+            int userId = bundle.getInt(AppConstants.USER_ID);
+            int badgeId = list.get(i).getId();
+            int creatorId = bundle.getInt(AppConstants.CREATOR_ID);
+            bundle.putInt(AppConstants.BADGE_ID, badgeId);
+            MyViewHolder viewHolder;
+            if (view == null) {
+                view = LayoutInflater.from(getContext()).inflate(R.layout.custom_danger, viewGroup, false);
+                viewHolder = new MyViewHolder(view);
+                view.setTag(viewHolder);
+            } else {
+                viewHolder = (MyViewHolder) view.getTag();
+            }
+            viewHolder.tvNameBadge.setText(enBadgeResponse.getName());
+            viewHolder.imgDanger.setImageResource(R.drawable.ic_danger);
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    DialogFragmentConfirm dialogFragmentConfirm = new DialogFragmentConfirm ();
+                    dialogFragmentConfirm.setArguments(bundle);
+                    dialogFragmentConfirm.show(mContext.getSupportFragmentManager(), AppConstants.DIALOG_TAG);
+                }
+            });
+            return view;
+        }
+
+
+        public class MyViewHolder {
+            private TextView tvNameBadge;
+            private ImageView imgDanger;
+
+            public MyViewHolder(View view) {
+                tvNameBadge = (TextView) view.findViewById(R.id.tvDanger);
+                imgDanger = (ImageView) view.findViewById(R.id.imageDanger);
+            }
+        }
     }
 }

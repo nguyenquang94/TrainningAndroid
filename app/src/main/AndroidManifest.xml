@@ -21,7 +21,9 @@
             android:name=".AcClock"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".AcBadge"></activity>
-        <activity android:name=".fragment.BadgeReportFragment"></activity>
+        <activity
+            android:name=".fragment.BadgeReportFragment"
+            android:theme="@android:style/Theme.Dialog"></activity>
     </application>
 
 </manifest>

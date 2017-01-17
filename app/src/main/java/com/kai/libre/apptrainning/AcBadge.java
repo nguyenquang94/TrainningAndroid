@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -75,6 +76,9 @@ public class AcBadge extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ac_badge);
+        getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+        );
         listUserBadge = new ArrayList<EnUserResponse.User_badges>();
         listBadge = new ArrayList<EnUserResponse.Badge>();
         listUser = new ArrayList<EnUserResponse.Data>();
@@ -211,5 +215,14 @@ public class AcBadge extends AppCompatActivity implements View.OnClickListener {
             case R.id.tvLogout:
                 break;
         }
+    }
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
     }
 }
