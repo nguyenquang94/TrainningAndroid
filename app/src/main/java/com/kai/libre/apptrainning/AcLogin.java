@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +16,6 @@ import android.widget.Toast;
 
 import com.kai.libre.apptrainning.entity.EnClockInStatus;
 import com.kai.libre.apptrainning.entity.EnLoginResponse;
-import com.kai.libre.apptrainning.intents.IntentManager;
 import com.kai.libre.apptrainning.services.ApiClient;
 
 import retrofit2.Call;
@@ -100,16 +100,31 @@ public class AcLogin extends AppCompatActivity {
             public void onResponse(Call<EnLoginResponse> call, Response<EnLoginResponse> response) {
                 EnLoginResponse enLoginResponse = response.body();
                 if (enLoginResponse.getToken() != null) {
-                    Bundle bundle = new Bundle();
+                    final Bundle bundle = new Bundle();
                     bundle.putString(AppConstants.TOKEN, enLoginResponse.getToken());
-                    checkInStatus(enLoginResponse.getToken());
+
+                    ApiClient.getClient().checkInStatus(enLoginResponse.getToken()).enqueue(new Callback<EnClockInStatus>() {
+                        @Override
+                        public void onResponse(Call<EnClockInStatus> call, Response<EnClockInStatus> response) {
+                            statusCheckIn = response.body().getCode();
+                            bundle.putInt(AppConstants.STATUS_CHECKIN, statusCheckIn);
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<EnClockInStatus> call, Throwable t) {
+
+                        }
+                    });
                     bundle.putInt(AppConstants.STATUS_CHECKIN, statusCheckIn);
                     bundle.putString(AppConstants.EMAIL_EMPLOYEE, enLoginResponse.getEmail());
                     bundle.putString(AppConstants.NAME_EMPLOYEE, enLoginResponse.getName());
                     bundle.putInt(AppConstants.AVATAR_ID, enLoginResponse.getAvatarId());
-                    IntentManager.startActivity(AcLogin.this, AcClock.class, bundle, null);
-                }else
-                {
+                    Intent intent = new Intent(AcLogin.this, AcClock.class);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    //IntentManager.startActivity(AcLogin.this, AcClock.class, bundle, null);
+                } else {
                     showAlert();
                 }
             }
@@ -121,19 +136,6 @@ public class AcLogin extends AppCompatActivity {
         });
     }
 
-    public void checkInStatus(String tokenEmployee) {
-        ApiClient.getClient().checkInStatus(tokenEmployee).enqueue(new Callback<EnClockInStatus>() {
-            @Override
-            public void onResponse(Call<EnClockInStatus> call, Response<EnClockInStatus> response) {
-                statusCheckIn = response.body().getCode();
-            }
-
-            @Override
-            public void onFailure(Call<EnClockInStatus> call, Throwable t) {
-
-            }
-        });
-    }
 
     public void showAlert() {
         AlertDialog dialog = new AlertDialog.Builder(this).setMessage(R.string.eror).setPositiveButton(R.string.ok,
@@ -170,6 +172,13 @@ public class AcLogin extends AppCompatActivity {
         super.onPause();
         loginAction();
 
+    }
+    @Override
+    public void onRestart()
+    {
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
     }
 
 }

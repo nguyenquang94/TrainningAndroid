@@ -1,9 +1,9 @@
-package com.kai.libre.apptrainning.fragment;
+package com.kai.libre.apptrainning;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,10 +12,8 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.kai.libre.apptrainning.AcBadge;
-import com.kai.libre.apptrainning.AppConstants;
-import com.kai.libre.apptrainning.R;
 import com.kai.libre.apptrainning.entity.EnBadgeResponse;
+import com.kai.libre.apptrainning.fragment.DialogFragmentConfirm;
 import com.kai.libre.apptrainning.services.ApiClient;
 
 import java.util.ArrayList;
@@ -29,7 +27,7 @@ import retrofit2.Response;
  * Created by Kai on 1/17/2017.
  */
 
-public class DangerFragment extends DialogFragment {
+public class AcDangerBadge extends AppCompatActivity {
 
     private GridView gridView;
 
@@ -41,19 +39,16 @@ public class DangerFragment extends DialogFragment {
 
     private Bundle bundle;
 
-    @Nullable
     @Override
-    public View onCreateView(final LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.tab_danger, container);
-        bundle = getArguments();
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.tab_danger);
+        bundle = getBundle();
         listBadge = new ArrayList<EnBadgeResponse>();
         listDanger = new ArrayList<EnBadgeResponse>();
         createListBadge();
-        gridView = (GridView) view.findViewById(R.id.gridviewDanger);
+        gridView = (GridView) findViewById(R.id.gridviewDanger);
 
-        dangerAdapter = new DangerAdapter(getContext(), bundle, listDanger);
-        gridView.setAdapter(dangerAdapter);
-        return view;
     }
 
     public void createListBadge() {
@@ -74,6 +69,8 @@ public class DangerFragment extends DialogFragment {
                             break;
                     }
                 }
+                dangerAdapter = new DangerAdapter(AcDangerBadge.this, bundle, listDanger);
+                gridView.setAdapter(dangerAdapter);
 
             }
 
@@ -86,14 +83,14 @@ public class DangerFragment extends DialogFragment {
 
     public class DangerAdapter extends BaseAdapter {
 
-        private AcBadge mContext;
+        private Context mContext;
 
         private List<EnBadgeResponse> list;
 
         private Bundle bundle;
 
         public DangerAdapter(Context context, Bundle bundle, ArrayList<EnBadgeResponse> listDanger) {
-            this.mContext =(AcBadge) context;
+            this.mContext = (AcDangerBadge) context;
             this.bundle = bundle;
             this.list = listDanger;
         }
@@ -124,7 +121,7 @@ public class DangerFragment extends DialogFragment {
             bundle.putInt(AppConstants.BADGE_ID, badgeId);
             MyViewHolder viewHolder;
             if (view == null) {
-                view = LayoutInflater.from(getContext()).inflate(R.layout.custom_danger, viewGroup, false);
+                view = LayoutInflater.from(AcDangerBadge.this).inflate(R.layout.custom_danger, viewGroup, false);
                 viewHolder = new MyViewHolder(view);
                 view.setTag(viewHolder);
             } else {
@@ -135,9 +132,9 @@ public class DangerFragment extends DialogFragment {
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    DialogFragmentConfirm dialogFragmentConfirm = new DialogFragmentConfirm ();
+                    DialogFragmentConfirm dialogFragmentConfirm = new DialogFragmentConfirm();
                     dialogFragmentConfirm.setArguments(bundle);
-                    dialogFragmentConfirm.show(mContext.getSupportFragmentManager(), AppConstants.DIALOG_TAG);
+                    dialogFragmentConfirm.show(getSupportFragmentManager(), AppConstants.DIALOG_TAG);
                 }
             });
             return view;
@@ -154,4 +151,12 @@ public class DangerFragment extends DialogFragment {
             }
         }
     }
+
+    public Bundle getBundle() {
+        Bundle bundle = this.getIntent().getExtras();
+        if (bundle == null)
+            bundle = new Bundle();
+        return bundle;
+    }
+
 }

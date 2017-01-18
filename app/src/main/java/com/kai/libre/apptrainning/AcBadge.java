@@ -5,6 +5,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
@@ -218,6 +219,10 @@ public class AcBadge extends AppCompatActivity implements View.OnClickListener {
     }
     @Override
     public void onResume() {
+        Log.d("davaoday3","01");
+        getUser();
+        badgeAdapter = new BadgeAdapter(this, listEnUserDatas);
+        gridview.setAdapter(badgeAdapter);
         super.onResume();
     }
 
@@ -225,4 +230,14 @@ public class AcBadge extends AppCompatActivity implements View.OnClickListener {
     public void onPause() {
         super.onPause();
     }
+
+    @Override
+    public void onRestart()
+    {
+        Log.d("davaoday3","1");
+        super.onRestart();
+        finish();
+        startActivity(getIntent());
+    }
+
 }
