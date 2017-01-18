@@ -1,6 +1,6 @@
 package com.kai.libre.apptrainning.services;
 
-import com.kai.libre.apptrainning.AppConstants;
+import com.kai.libre.apptrainning.common.AppConstants;
 import com.kai.libre.apptrainning.entity.EnAvatar;
 import com.kai.libre.apptrainning.entity.EnBadgeResponse;
 import com.kai.libre.apptrainning.entity.EnClockInStatus;

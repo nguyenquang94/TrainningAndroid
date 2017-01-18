@@ -10,6 +10,7 @@ import android.view.Window;
 import android.widget.TabHost;
 import android.widget.TextView;
 
+import com.kai.libre.apptrainning.common.AppConstants;
 import com.kai.libre.apptrainning.entity.EnBadgeResponse;
 import com.kai.libre.apptrainning.entity.EnReportBadge;
 
@@ -21,7 +22,7 @@ import java.util.List;
  * Created by Kai on 1/12/2017.
  */
 
-public class AcBadgeReportFragment extends TabActivity {
+public class AcBadgeReport extends TabActivity {
 
     private TextView tvName;
 
@@ -93,5 +94,6 @@ public class AcBadgeReportFragment extends TabActivity {
             bundle = new Bundle();
         return bundle;
     }
+
 }
 

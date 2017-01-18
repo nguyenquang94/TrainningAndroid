@@ -10,6 +10,7 @@
 
     <dimen name="corners_radius">5dp</dimen>
     <dimen name="stroke_width_press">6dp</dimen>
+    <dimen name="stroke_width_press_2">3dp</dimen>
     <dimen name="padding_press">8dp</dimen>
 
     <dimen name="size_menu">42dp</dimen>
@@ -17,7 +18,9 @@
     <dimen name="padding_view_ac_clock">20dp</dimen>
 
     <dimen name="padding_view_nav_img">20dp</dimen>
+    <dimen name="padding_view_nav_img_2">24dp</dimen>
     <dimen name="padding_view_nav_text">35dp</dimen>
+    <dimen name="padding_view_nav_text_2">30dp</dimen>
     <dimen name="padding_view_nav_text_1">15dp</dimen>
     <dimen name="text_size_name_nav">20sp</dimen>
     <dimen name="text_size_name_1_nav">15sp</dimen>
@@ -28,5 +31,12 @@
     <dimen name="size_ic_search_h">45dp</dimen>
 
     <dimen name="ic_nav">16dp</dimen>
+
+    <dimen name="height_custom_danger">60dp</dimen>
+    <dimen name="height_custom_layout_danger">150dp</dimen>
+    <dimen name="colums_gird">90dp</dimen>
+    <dimen name="size_ac_badge">50dp</dimen>
+    <dimen name="width_custom_ac_badge">200dp</dimen>
+    <dimen name="height_custom_ac_badge">85dp</dimen>
 
 </resources>

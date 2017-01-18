@@ -1,86 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ac_login"
+    android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorBgLogin"
-    android:orientation="vertical"
-    android:padding="@dimen/activity_horizontal_margin"
-    tools:context="com.kai.libre.apptrainning.AcLogin">
+    tools:context=".AcLogin"
+    tools:ignore="MergeRootFrame">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_top_login"
-        android:background="@drawable/layout_background"
-        android:orientation="vertical">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <EditText
-                android:inputType="text"
-                android:id="@+id/edtUserName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/edt_username" />
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="@dimen/size_ic_login"
-                android:layout_height="@dimen/size_ic_login"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="@dimen/corner_width"
-                android:background="@drawable/ic_user" />
-        </RelativeLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/colorBgLogin"></View>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/edtPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/edt_password"
-                android:inputType="textPassword" />
-
-            <ImageView
-                android:layout_width="@dimen/size_ic_login"
-                android:layout_height="@dimen/size_ic_login"
-                android:layout_alignParentRight="true"
-                android:layout_centerInParent="true"
-                android:layout_marginRight="@dimen/corner_width"
-                android:background="@drawable/ic_password" />
-        </RelativeLayout>
-
-    </LinearLayout>
-
-    <CheckBox
-        android:id="@+id/rememberInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/vertical_corner_width"
-        android:text="Remember"
-        android:textColor="@color/colorWhite" />
-
-    <Button
-        android:id="@+id/btnLogin"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/vertical_corner_width"
-        android:background="@drawable/selector_btn_app_green"
-        android:text="Login"
-        android:textColor="@color/colorWhite"
-        android:textSize="@dimen/activity_horizontal_margin" />
-
-</LinearLayout>
+</FrameLayout>

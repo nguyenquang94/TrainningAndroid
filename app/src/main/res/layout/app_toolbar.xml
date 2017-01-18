@@ -3,7 +3,7 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:background="@color/colorBgLogin"
-    android:layout_height="50dp"
+    android:layout_height="@dimen/size_ac_badge"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
     <LinearLayout
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="@string/clock_in_out"
-            android:textSize="20dp" />
+            android:textSize="@dimen/text_size_name_nav" />
     </LinearLayout>
 </android.support.v7.widget.Toolbar>
         

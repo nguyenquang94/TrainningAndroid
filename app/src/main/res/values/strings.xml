@@ -22,7 +22,7 @@
     <string name="btn_ok">Ok</string>
     <string name="btn_cancel">Hủy</string>
     <string name="dialog_confirm">Confirm to add Badge </string>
-    <string name="tittle_dialog_confirm">Do you want to add this Badge to %1$d </string>
+    <string name="tittle_dialog_confirm">Do you want to add this Badge to </string>
 
 
 </resources>

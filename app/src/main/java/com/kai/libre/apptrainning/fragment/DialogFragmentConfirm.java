@@ -2,6 +2,7 @@ package com.kai.libre.apptrainning.fragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -9,9 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
-import com.kai.libre.apptrainning.AcBadge;
-import com.kai.libre.apptrainning.AppConstants;
 import com.kai.libre.apptrainning.R;
+import com.kai.libre.apptrainning.common.AppConstants;
 
 /**
  * Created by Kai on 1/17/2017.
@@ -20,19 +20,19 @@ import com.kai.libre.apptrainning.R;
 public class DialogFragmentConfirm extends DialogFragment {
     private AlertDialog alertDialog;
 
-    private AcBadge currentActivity;
+    private Context currentActivity;
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        currentActivity = (AcBadge) getActivity();
+        currentActivity = getActivity();
         Bundle bundle = getArguments();
         String nameEmployee = bundle.getString(AppConstants.NAME_EMPLOYEE);
         String token = bundle.getString(AppConstants.TOKEN);
         int userId = bundle.getInt(AppConstants.USER_ID);
         int badgeId = bundle.getInt(AppConstants.BADGE_ID);
         int creatorId = bundle.getInt(AppConstants.CREATOR_ID);
-        String message = getString(R.string.tittle_dialog_confirm) + nameEmployee;
+        String message = getString(R.string.tittle_dialog_confirm) + AppConstants.STRING_SPACE + nameEmployee;
         View view = LayoutInflater.from(currentActivity).inflate(R.layout.dialog_confirm, null);
         TextView tvMessage = (TextView) view.findViewById(R.id.message);
         tvMessage.setText(message);

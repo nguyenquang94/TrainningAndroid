@@ -1,6 +1,6 @@
 package com.kai.libre.apptrainning.services;
 
-import com.kai.libre.apptrainning.AppConstants;
+import com.kai.libre.apptrainning.common.AppConstants;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;

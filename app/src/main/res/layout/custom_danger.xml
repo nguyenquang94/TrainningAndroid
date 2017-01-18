@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="100dp"
+    android:layout_marginTop="@dimen/corner_width"
+    android:layout_width="@dimen/margin_top_login"
     android:background="@drawable/layout_custom_badge"
-    android:layout_height="150dp"
+    android:layout_height="@dimen/height_custom_layout_danger"
     android:orientation="vertical">
 
     <ImageView
+        android:layout_marginTop="@dimen/corner_width"
         android:layout_weight="1"
         android:id="@+id/imageDanger"
         android:layout_width="match_parent"
-        android:layout_height="60dp" />
+        android:layout_height="@dimen/height_custom_danger" />
 
     <TextView
         android:layout_weight="1"
+        android:layout_marginLeft="@dimen/corner_width"
         android:id="@+id/tvDanger"
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="@dimen/height_custom_danger" />
 
 </LinearLayout>

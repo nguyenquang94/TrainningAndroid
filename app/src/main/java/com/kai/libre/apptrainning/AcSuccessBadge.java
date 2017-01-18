@@ -12,6 +12,7 @@ import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.kai.libre.apptrainning.common.AppConstants;
 import com.kai.libre.apptrainning.entity.EnBadgeResponse;
 import com.kai.libre.apptrainning.fragment.DialogFragmentConfirm;
 import com.kai.libre.apptrainning.services.ApiClient;

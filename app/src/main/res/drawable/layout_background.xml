@@ -2,10 +2,10 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <corners
-        android:bottomLeftRadius="@dimen/corner_width"
-        android:bottomRightRadius="@dimen/corner_width"
-        android:topLeftRadius="@dimen/corner_width"
-        android:topRightRadius="@dimen/corner_width" />
+        android:bottomLeftRadius="@dimen/padding_press"
+        android:bottomRightRadius="@dimen/padding_press"
+        android:topLeftRadius="@dimen/padding_press"
+        android:topRightRadius="@dimen/padding_press" />
 
     <stroke
         android:width="@dimen/stroke_width"

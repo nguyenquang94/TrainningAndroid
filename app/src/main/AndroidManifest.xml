@@ -24,8 +24,8 @@
         <activity android:name=".AcDangerBadge"></activity>
         <activity android:name=".AcSuccessBadge"></activity>
         <activity
-            android:name=".AcBadgeReportFragment"
-            android:theme="@android:style/Animation.Dialog"></activity>
+            android:name=".AcBadgeReport"
+            android:theme="@style/AppDialogTheme"></activity>
     </application>
 
 </manifest>

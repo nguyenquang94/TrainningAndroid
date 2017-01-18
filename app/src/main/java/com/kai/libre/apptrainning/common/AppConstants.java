@@ -1,4 +1,4 @@
-package com.kai.libre.apptrainning;
+package com.kai.libre.apptrainning.common;
 
 /**
  * Created by Kai on 1/12/2017.
@@ -14,6 +14,7 @@ public class AppConstants {
     public static final String URL_AVATAR_ID = "service/image/{avatarId}";
     public static final String TOKEN = "";
     public static final String STRING_BLANK = "";
+    public static final String STRING_SPACE = " ";
     public static final String NAME_EMPLOYEE = "name";
     public static final String EMAIL_EMPLOYEE = "email";
     public static final String AVATAR_ID = "avatar_id";

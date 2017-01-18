@@ -11,11 +11,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.kai.libre.apptrainning.AcBadge;
-import com.kai.libre.apptrainning.AppConstants;
+import com.kai.libre.apptrainning.common.AppConstants;
 import com.kai.libre.apptrainning.R;
 import com.kai.libre.apptrainning.entity.EnAvatar;
 import com.kai.libre.apptrainning.entity.EnUserData;
-import com.kai.libre.apptrainning.AcBadgeReportFragment;
+import com.kai.libre.apptrainning.AcBadgeReport;
 import com.kai.libre.apptrainning.intents.IntentManager;
 import com.kai.libre.apptrainning.services.ApiClient;
 
@@ -92,11 +92,8 @@ public class BadgeAdapter extends BaseAdapter {
                 bundle.putInt(AppConstants.USER_ID, listEnUserDatas.get(position).getUserId());
                 bundle.putString(AppConstants.TOKEN, listEnUserDatas.get(position).getToken());
                 bundle.putInt(AppConstants.CREATOR_ID, listEnUserDatas.get(position).getCreatorId());
-                IntentManager.startActivity(mContext, AcBadgeReportFragment.class, bundle);
+                IntentManager.startActivity(mContext, AcBadgeReport.class, bundle);
 
-              /*  BadgeReportFragment badgeReportFragment = new BadgeReportFragment();
-                badgeReportFragment.setArguments(bundle);
-                badgeReportFragment.show(mContext.getSupportFragmentManager(), AppConstants.DIALOG_TAG);*/
             }
         });
         return gridView;
