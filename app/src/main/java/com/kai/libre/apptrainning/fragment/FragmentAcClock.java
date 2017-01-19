@@ -1,6 +1,8 @@
 package com.kai.libre.apptrainning.fragment;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
@@ -122,6 +124,20 @@ public class FragmentAcClock extends Fragment implements View.OnClickListener {
                 break;
             case R.id.tvLogout:
                 bundle.clear();
+                final ProgressDialog   prgDialog = new ProgressDialog(getActivity());
+                prgDialog.setMessage(getActivity().getResources().getText(R.string.logout));
+                prgDialog.setCancelable(false);
+                prgDialog.show();
+                Runnable progressRunnable = new Runnable() {
+
+                    @Override
+                    public void run() {
+                        prgDialog.cancel();
+                    }
+                };
+
+                Handler pdCanceller = new Handler();
+                pdCanceller.postDelayed(progressRunnable, 3000);
                 IntentManager.startActivity(getActivity(), AcLogin.class, null, null);
                 break;
             case R.id.btnCheckIn:

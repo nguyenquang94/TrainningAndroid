@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,8 +53,6 @@ public class FragmentAcLogin extends android.support.v4.app.Fragment {
 
     private int statusCheckIn;
 
-    private AcLogin mContext = (AcLogin) getActivity();
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,9 +86,9 @@ public class FragmentAcLogin extends android.support.v4.app.Fragment {
         String password = edtPassword.getText().toString().trim();
 
         if (null == userName || userName.length() == 0) {
-            Toast.makeText(mContext, R.string.empty_username, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getActivity().getResources().getText(R.string.empty_username), Toast.LENGTH_SHORT).show();
         } else if (null == password || password.length() == 0) {
-            Toast.makeText(mContext, R.string.empty_password, Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), getActivity().getResources().getText(R.string.empty_password), Toast.LENGTH_SHORT).show();
         } else {
             prgDialog = new ProgressDialog(getActivity());
             prgDialog.setMessage(getActivity().getResources().getText(R.string.login));
@@ -103,8 +102,18 @@ public class FragmentAcLogin extends android.support.v4.app.Fragment {
                 settings = getActivity().getSharedPreferences(SPF_NAME, Context.MODE_PRIVATE);
                 settings.edit().clear().commit();
             }
+
+            Runnable progressRunnable = new Runnable() {
+
+                @Override
+                public void run() {
+                    prgDialog.cancel();
+                }
+            };
+
+            Handler pdCanceller = new Handler();
+            pdCanceller.postDelayed(progressRunnable, 3000);
             onLogin(userName, password);
-            prgDialog.dismiss();
         }
 
     }
@@ -160,6 +169,7 @@ public class FragmentAcLogin extends android.support.v4.app.Fragment {
                 }).create();
 
         dialog.show();
+        prgDialog.cancel();
     }
 
     private void loadPreferences() {
